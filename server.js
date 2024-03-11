@@ -10,6 +10,7 @@ app.get('/auth/callback', (req, res) => {
     const idToken = req.query.id_token;
 
     if (!idToken) {
+        console.log('hey iam logged in man')
         return res.status(400).send('ID token missing');
     }
 
