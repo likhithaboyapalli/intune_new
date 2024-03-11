@@ -10,7 +10,7 @@ app.get('/auth/callback', (req, res) => {
     const idToken = req.query.id_token;
 
     if (!idToken) {
-        console.log('hey iam logged in man')
+        
         return res.status(400).send('ID token missing');
     }
 
@@ -24,6 +24,7 @@ app.get('/auth/callback', (req, res) => {
         const userEmail = decodedToken.email;
 
         // You can now use these details in your application
+        console.log(`User ID: ${userId}, Name: ${userName}, Email: ${userEmail}`);
         res.send(`User ID: ${userId}, Name: ${userName}, Email: ${userEmail}`);
     } catch (error) {
         console.error('Error decoding token:', error);
