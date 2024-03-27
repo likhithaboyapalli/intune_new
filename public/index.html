@@ -8,9 +8,12 @@
 <body>
     <script>
         let authforApp; // Variable to store the app token
-
-        fetch('https://intuneutility.azurewebsites.net/getAppToken')
-            .then(response => {
+        const ServerUrl='https://intuneutility.azurewebsites.net'
+        fetch(`${serverUrl}/getAccessToken`, {
+                method: 'GET',
+                // Set a timeout for the fetch request
+                timeout: 5000, // 5 seconds
+            }).then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to get app token');
                 }
