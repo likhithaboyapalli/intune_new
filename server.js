@@ -16,7 +16,6 @@ app.get('/getAppToken', async (req, res) => {
         // Retrieve the app access token
         const appAuthToken = await authforApp(clientId, clientSecret, tenantId);
 
-        
         res.json({
             app_token: appAuthToken
         });
@@ -71,4 +70,5 @@ const PORT = process.env.PORT || 443;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
+
 
