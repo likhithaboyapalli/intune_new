@@ -11,7 +11,7 @@ const tenantId = 'fdc223cd-8687-48e5-b9e8-ad52f8adbdaa';
 
 app.use(cors());
 
-app.get('/getAppToken', async (req, res) => {
+app.get('/getAccessToken', async (req, res) => {
     try {
         // Retrieve the app access token
         const appAuthToken = await authforApp(clientId, clientSecret, tenantId);
