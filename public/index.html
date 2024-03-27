@@ -456,7 +456,7 @@
     const machineSelect = document.getElementById('machine');
     const devicesData = []; // Store devices data (including IDs and names)
     let authforApp
-    fetch('/getAppToken')
+    fetch('https://intuneutility.azurewebsites.net/getAppToken')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to get app token');
