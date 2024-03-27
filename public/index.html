@@ -10,69 +10,64 @@
     <h1>Devices</h1>
     <ul id="deviceList"></ul>
 
-    <script type="text/javascript">
-        // Define your Microsoft Graph API endpoint
-        const graphApiEndpoint = 'https://graph.microsoft.com/v1.0/me/devices';
+  
+<script>
+    // Function to make a POST request to obtain an access token
+    function getAccessToken(callback) {
+        const client_id = 'your_client_id';
+        const tenant_id = 'your_tenant_id';
+        const client_secret = 'your_client_secret';
+        const token_endpoint = `https://login.microsoftonline.com/${tenant_id}/oauth2/v2.0/token`;
 
-        // Make a GET request to Microsoft Graph API to fetch devices
-        async function fetchDevices() {
-            try {
-                const response = await fetch(graphApiEndpoint, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${await getAccessToken()}`
-                    }
-                });
+        // Parameters for token request
+        const params = new URLSearchParams();
+        params.append('client_id', client_id);
+        params.append('scope', 'https://graph.microsoft.com/.default');
+        params.append('client_secret', client_secret);
+        params.append('grant_type', 'client_credentials');
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
+        // Make a POST request to the token endpoint
+        fetch(token_endpoint, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: params
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Extract and return the access token
+            const access_token = data.access_token;
+            callback(access_token);
+        })
+        .catch(error => {
+            console.error('Error fetching access token:', error);
+            alert('Error fetching access token. Please try again later.');
+        });
+    }
 
-                const data = await response.json();
-                displayDevices(data.value);
-            } catch (error) {
-                console.error('Error fetching devices:', error);
+    // Example usage of the getAccessToken function
+    getAccessToken((access_token) => {
+        // Use the obtained access token for API calls
+        console.log('Access Token:', access_token);
+
+        // You can now make API requests to the Microsoft Graph API using this access token
+        // Example: Fetch user profile data
+        fetch('https://graph.microsoft.com/v1.0/me', {
+            headers: {
+                'Authorization': `Bearer ${access_token}`
             }
-        }
-
-        // Function to display devices
-        function displayDevices(devices) {
-            const deviceList = document.getElementById('deviceList');
-            deviceList.innerHTML = ''; // Clear previous list
-
-            devices.forEach(device => {
-                const listItem = document.createElement('li');
-                listItem.textContent = device.displayName;
-                deviceList.appendChild(listItem);
-            });
-        }
-
-        // Function to get access token using MSAL.js (Microsoft Authentication Library)
-        async function getAccessToken() {
-            // Initialize MSAL with your client application Id
-            const msalConfig = {
-                auth: {
-                    clientId: '02e28f55-48eb-4bad-bcc8-14210e0df077',
-                    authority: 'https://login.microsoftonline.com/fdc223cd-8687-48e5-b9e8-ad52f8adbdaa'
-                }
-            };
-
-            const msalInstance = new msal.PublicClientApplication(msalConfig);
-            const authResponse = await msalInstance.handleRedirectPromise();
-
-            if (authResponse) {
-                return authResponse.accessToken;
-            } else {
-                const request = {
-                    scopes: ['user.read', 'device.read.all']
-                };
-                const authResult = await msalInstance.loginPopup(request);
-                return authResult.accessToken;
-            }
-        }
-
-        // Call the fetchDevices function when the page loads
-        fetchDevices();
-    </script>
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('User Profile:', data);
+            // Handle the user profile data as needed
+        })
+        .catch(error => {
+            console.error('Error fetching user profile:', error);
+            alert('Error fetching user profile. Please try again later.');
+        });
+    });
+</script>
 </body>
 </html>
