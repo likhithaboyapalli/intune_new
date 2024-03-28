@@ -4,17 +4,14 @@ import cors from 'cors';
 
 const app = express();
 
-const PORT = process.env.PORT || 443;
-
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, 'public')));
-
 // Your Azure AD configuration
 const clientId = '02e28f55-48eb-4bad-bcc8-14210e0df077';
 const clientSecret = '44v8Q~RsAmr2Uw.LTeMwVvfYz2O2caU.4XgbjapU';
 const tenantId = 'fdc223cd-8687-48e5-b9e8-ad52f8adbdaa';
 
 app.use(cors());
+
+app.use(express.static('public'))
 
 app.get('/getAccessToken', async (req, res) => {
     try {
@@ -70,7 +67,7 @@ async function authforApp(clientId, clientSecret, tenantId) {
         throw new Error('Error obtaining app token: Network error or other issue');
     }
 }
-
+const PORT = process.env.PORT || 443;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
