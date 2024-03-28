@@ -4,6 +4,11 @@ import cors from 'cors';
 
 const app = express();
 
+const PORT = process.env.PORT || 443;
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Your Azure AD configuration
 const clientId = '02e28f55-48eb-4bad-bcc8-14210e0df077';
 const clientSecret = '44v8Q~RsAmr2Uw.LTeMwVvfYz2O2caU.4XgbjapU';
@@ -66,7 +71,6 @@ async function authforApp(clientId, clientSecret, tenantId) {
     }
 }
 
-const PORT = process.env.PORT || 443;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
