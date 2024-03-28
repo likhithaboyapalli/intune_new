@@ -1,43 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Intune Functionality</title>
-  <style>
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intune</title>
+    <style>
+        
     body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden; /* Prevent scrollbar due to default body margin */
-        }
-        .input-details {
-            height: 30vh; /* 50% of the viewport height */
-            width: 100%;
-            display: flex;
-            color: black; /* Text color on the color sections */
-            padding-top: 20px;
-            font-style:serif ;
-            font-weight: bold;
+    font-family: "Roboto", sans-serif;
+    background: #76b852; /* Green background color */
+    background: rgb(141, 194, 111);
+    background: linear-gradient(90deg, rgba(141, 194, 111, 1) 0%, rgba(118, 184, 82, 1) 50%);
+   
+    }
 
-        }
-        .heading-details {
-            height: 5vh; /* 5% of the viewport height */
-            width: 100%;
-            display: flex;
-            justify-content: center; /* Center the content horizontally */
-            align-items: center; /* Center the content vertically */
-            text-align: center;
-            color: black; /* Text color on the color sections */
-        }
+    /* Center align the h1 */
+    h1 {
+        text-align: center;
+        margin-bottom: 10px;
+        color: #fcf8f8; /* Text color */
+        font-size: 24px; /* Larger font size */
+        margin-right:40px;
+        margin-top:30px
+    }
 
-        label {
+    /* Styles for the Intune form (initially hidden) */
+    .container {
+        max-width: 800px;
+        margin: 20px auto; /* Add spacing below heading */
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: #FFFFFF; /* White background */
+    }
+
+    .input-details {
+        display: flex;
+        align-items: center; /* Align input details horizontally */
+        flex-wrap: wrap;
+        margin-left: 200px;
+        margin-bottom: 20px;
+        margin-top:40px;
+        margin-right:200px
+    }
+
+    .input-container {
+        flex: 0.35;
+        padding-right: 20px;
+        width: 45%; /* Adjust as needed */
+        margin-right: 15px;
+
+    }
+
+    label {
         display: block;
         margin-bottom: 5px;
         color: #4d4d4d; /* Text color */
         font-size: 16px; /* Font size */
     }
-    .modal {
+
+    input[type="text"],
+    input[type="email"],
+    select {
+        margin-top: 5px;
+        width: 100%; /* Full width */
+        padding: 10px; /* Increased padding */
+        margin-bottom: 10px;
+        border: 1px solid #ccc; /* Light border */
+        border-radius: 3px;
+        font-size: 14px; /* Font size */
+        outline: none;
+    }
+
+    /* Center align buttons */
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 200px;
+        
+        /* Center align buttons horizontally */
+    }
+
+    /* Set a fixed width for buttons */
+    /* Set a fixed width for buttons and make background green */
+    .button-container button {
+        width: 150px; /* Adjust the width as needed */
+        margin: 5px 0; /* Add spacing between buttons */
+        padding: 10px;
+        background-color: #4CAF50; /* Green background color */
+        color: #FFFFFF; /* Text color */
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        font-size: 16px; /* Font size */
+    }
+    .button-container button:disabled {
+    opacity: 0.6; /* Reduce opacity for disabled buttons */
+    cursor: not-allowed; /* Change cursor for disabled buttons */
+    background-color: #ccc; /* Change background color for disabled buttons */
+    color: #666; /* Change text color for disabled buttons */
+   }
+    /* Button hover effect */
+    .button-container button:hover {
+        background: #43A047; /* Darker green on hover */
+    }
+
+    /* Reset and Cancel buttons */
+    .reset-button,
+    .cancel-button {
+        width: 100px; /* Adjust the width as needed */
+        background-color: #4CAF50; /* Green background color */
+        color: #FFFFFF; /* Text color */
+    }
+
+    /* Button hover effect for reset and cancel buttons */
+    .reset-button:hover,
+    .cancel-button:hover {
+        background: #43A047; /* Darker green on hover */
+    }
+
+
+
+        /* Modal styles (initially hidden) */
+        .modal {
             display: none;
             position: fixed;
             z-index: 1;
@@ -57,6 +144,7 @@
             width: 40%;
             text-align: center;
         }
+
         .modal h2 {
             margin-bottom: 20px;
         }
@@ -70,152 +158,87 @@
             
             margin-right: 100px;
         }
+        /* Modal styles - customize as needed */
+        .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.4);
+        }
 
+        .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 60%;
+        }
 
+        .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        }
 
-.container {
-    height: 70vh; /* 50% of the viewport height */
+        .close:hover,
+        .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+        }
+
+        ul {
+        list-style: none;
+        padding: 0;
+        }
+
+        ul li {
+        cursor: pointer;
+        margin-bottom: 5px;
+        }
+
+        ul li:hover {
+        background-color: #f0f0f0;
+        }
+        /* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
     width: 100%;
-    display: flex;
-    color: black; /* Text color on the color sections */
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
-#color1 {
-    background-color: #3498db; /* Change this to the first color */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 70%;
 }
 
-#color2 {
-    background-color: white; /* Change this to the second color */
-}
-
-
-    h1 {
-      margin: 20px 0;
-      color: blue; /* Set the color for the h1 element */
-      margin-bottom: 20px;
-
-    }
-
-
-    .action-div {
-      width: 200px;
-      height: 160px;
-      margin: 20px;
-      padding: 10px;
-      border: 2px solid #333;
-      border-radius: 8px;
-      background-color: #add8e6; /* Light Blue */
-      display: inline-block;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .action-div:hover {
-      background-color: #87ceeb; /* Slightly darker blue on hover */
-    }
-
-    .action-div h2 {
-      margin: 5px 0;
-    }
-
-    .action-div p {
-      font-size: 14px;
-      color: #333;
-      margin: 0;
-    }
-
-    .action-div img {
-      max-width: 50px; /* Adjust the maximum width of the image */
-      max-height: 50px; /* Adjust the maximum height of the image */
-      margin-bottom: 10px;
-      display: flex;
-        justify-content: center; /* Center the content horizontally */
-        align-items: center; /* Center the content vertically */
-        text-align: center;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    select {
-        margin-top: 5px;
-        width: 100%; /* Full width */
-        padding: 10px; /* Increased padding */
-        margin-bottom: 10px;
-        border: 1px solid #ccc; /* Light border */
-        border-radius: 3px;
-        font-size: 14px; /* Font size */
-        outline: none;
-    }
-    .styled-button {
-    font-size: 15px;
-    width: 10%; /* Full width */
-    padding: 14px 2px;
-    height: 10px;
-    margin-top: 150px;
-    margin-right: 15px;
-    text-align: center;
-    display: flex; /* Use flexbox */
-    align-items: center; /* Center vertically */
-    justify-content: center; /* Center horizontally */}
-
-    button:disabled {
-        opacity: 0.5; /* Optional: Add a visual indication that the button is disabled */
-        pointer-events: none; /* Disable pointer events to prevent user interaction */
-    }
-
-    .input-container {
-        margin-top: 15px; /* Adjust margin as needed */
-        padding: 40px;
-    }
-
-    label {
-        display: block;
-        margin-bottom: 5px; /* Adjust margin as needed */
-    }
-
-    input,
-    select,
-    button {
-        width: 200px; /* Adjust width as needed */
-        height: 30px; /* Adjust height as needed */
-    }
-    #machine {
-        height: 50px; /* Adjust height as needed */
-    }    
-    .input-container button {
-        margin-top: 25px; /* Adjust the margin-top as needed */
-        width: 180px;
-        height: 50px;
-    }
-
-    #reset {
-        width: 100px; /* Adjust the width as needed */
-        color: #000000;    }
-
-    #cancel {
-        width: 100px; /* Adjust the width as needed */
-        color: #000000;    }
-
-    /* Style the select element */
-    #selectGroup {
-        width: 100%; /* Make the select element full width */
-        margin-bottom: 15px; /* Add some space below the select element */
-        height: 50px;
-    }
-
-    /* Style the buttons */
-    #confirmGroupButton,
-    #closeGroupModal {
-        width: 50%; /* Make the buttons full width */
-        color: black; /* Text color */
-        margin-bottom: 10px; /* Add some space between buttons */
-    }
-
-    .close {
+.close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 /* Content section styles */
@@ -244,7 +267,22 @@
 .app-item:hover {
     background-color: #f0f0f0;
 }
-
+.data-type-item{
+    border: 1px solid #ccc;
+    padding: 10px;
+    cursor: pointer;
+}
+.data-type-item:hover{
+    background-color: #f0f0f0;
+}
+.group-item{
+    border: 1px solid #ccc;
+    padding: 10px;
+    cursor: pointer;
+}
+.group-item:hover{
+    background-color: #f0f0f0;
+}
 .dialog {
             display: none;
             position: fixed;
@@ -281,112 +319,43 @@
         .dialog button:hover {
             background-color: #e9e9e9;
         }
-
-
-.close:hover,
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
- ul {
-        list-style: none;
-        padding: 0;
-        }
-
-        ul li {
-        cursor: pointer;
-        margin-bottom: 5px;
-        }
-
-        ul li:hover {
-        background-color: #f0f0f0;
-        }
-        /* Modal styles */
-
-  </style>
+    </style>
 </head>
 <body>
 
-<div class="heading-details" id="color1">
-    <img src="khclogo.png" alt="Image Description" height="40px" width="300px">
-</div>
-
-  <!-- <input type="text" placeholder="Ticket No:" id="ticketNo"><br>
-  <input type="text" placeholder="User Email:" id="userEmail"><br>
-  <input type="text" placeholder="Machine Name:" id="machineName"><br> -->
-  
-  
-<div class="input-details" id="color1">
-
+<h1>Intune Functionality Control</h1>
+<div class="input-details">
+    <!-- Input details are arranged horizontally -->
     <div class="input-container">
         <label for="ticketNo">Ticket No:</label>
-        <input type="text" id="ticketNo" placeholder="Enter Ticket No" maxlength="10">
+        <input type="text" id="ticketNo" maxlength="10">
     </div>
-    
     <div class="input-container">
         <label for="userEmail">User Email:</label>
-        <input type="email" id="userEmail" placeholder="Enter User Email">
+        <input type="email" id="userEmail">
     </div>
-    
     <div class="input-container">
         <label for="machineName">Machine Name:</label>
         <select id="machine" name="machine" required disabled>
             <option value="" selected disabled>Select a Machine</option>
         </select>
     </div>
-    
-    <div class="input-container">
-        <button type="button" id="getUserDevices" placeholder="Get User Devices" disabled>Get User Devices</button>
-    </div>
-
-    <button class="styled-button"  id="reset">Reset Form</button>
-    <button class="styled-button"  id="cancel">Logout</button>
-
-
-
+    <!-- Inside the "input-details" div, after the "User Email" input -->
+ 
 </div>
+<div class="button-container">
+    <!-- Buttons are stacked vertically -->
+    <button id="getUserDevices" disabled>Get User Devices</button>
+    <button id="sync" disabled>Sync</button>    
+    <button id="reboot" disabled>Reboot</button>
+    <button id="recoveryKey" disabled>Recovery Key</button>
+    <button id="pushApp" disabled>Push App</button>
+    <button id="removeApp" disabled>Remove App</button> 
+    <button id="remoteWipe" disabled>Remote Wipe</button>
+    <button id="remoteLock" disabled>Remote Lock</button>
+    <button class="reset-button" id="reset">Reset</button>
+    <button class="cancel-button" id="cancel">Logout</button>
 
-
-<div class="container" id="color2">
-
-    <button id="syncAction" class="action-div" disabled>
-        <p> Sync</p>
-        <span>Synchronize data between devices.</span>
-      </button>  
-
-      <button id="rebootAction" class="action-div" disabled>
-        <p>Reboot</p>
-        <span>Restart the device to apply changes.</span>
-      </button>
-      
-      <button id="recoveryAction" class="action-div" disabled>
-        <p>Recovery</p>
-        <span>Enter recovery mode for troubleshooting.</span>
-      </button>
-      
-      <button id="pushAppAction" class="action-div" disabled>
-        <p>Push App</p>
-        <span>Install and deploy a new application.</span>
-      </button>
-      
-      <button id="removeAppAction" class="action-div" disabled>
-        <p>Remove App</p>
-        <span>Uninstall an existing application.</span>
-      </button>
-      
-      <button id="wipeAction" class="action-div" disabled>
-        <p>Wipe</p>
-        <span>Erase all data on the device.</span>
-      </button>
-      
-      <button id="remoteLockAction" class="action-div" disabled>
-        <p>Remote Lock</p>
-        <span>Lock the device remotely for security.</span>
-      </button>
-      
-          <!-- Add a modal for wipe options (initially hidden) -->
     <div id="wipeModal" class="modal">
         <div class="modal-content">
             <h2>Choose Wipe Type</h2>
@@ -395,56 +364,7 @@
             <button id="closeWipeModal">Close</button>
         </div>
     </div>
-    
-    <!-- Add a modal for group selection (initially hidden) -->
-    <div id="groupSelectionModal" class="modal">
-        <div class="modal-content">
-            <h2>Select a Group</h2> 
-            <label for="selectGroup">Select a group:</label>
-            <select id="selectGroup">
-                <!-- Options will be added dynamically using JavaScript -->
-            </select>
-            <button id="confirmGroupButton">Confirm</button>
-            <button id="closeGroupModal">Close</button>
-        </div>
-    </div>
-   
 
-    <div id="deviceSelectionModal" class="modal">
-        <div class="modal-content">
-            <h2>Select User or Device to add in to group</h2>
-            <div class="radio-group">
-                <input type="radio" id="userOption" name="memberOption" value="user">
-                <label for="userOption">User</label>
-                <input type="radio" id="deviceOption" name="memberOption" value="device">
-                <label for="deviceOption">Device</label>
-            </div>
-            <div id="memberInfo" style="display: none;">
-                <p><strong>Selected Member:</strong> <span id="selectedMemberInfo"></span></p>
-            </div>
-            <button id="confirmMemberButton">Confirm</button>
-            <button id="closeDeviceSelectionModal">Close</button>
-        </div>
-    </div>
-
-    <div id="deviceRemovalModal" class="modal">
-        <div class="modal-content">
-            <h2>Select User or Device to Remove from the group</h2>
-            <div class="radio-group">
-                <input type="radio" id="userOption1" name="memberOption" value="user">
-                <label for="userOption1">User</label>
-                <input type="radio" id="deviceOption1" name="memberOption" value="device">
-                <label for="deviceOption1">Device</label>
-            </div>
-            <div id="memberInfo1" style="display: none;">
-                <p><strong>Selected Member:</strong> <span id="selectedMemberInfo1"></span></p>
-            </div>
-            <button id="removeDeviceUserButton">Confirm</button>
-            <button id="closeDeviceRemovalModal">Close</button>
-        </div>
-    </div>
-
- 
 </div>
 
 <div class="app-modal-container">
@@ -502,16 +422,13 @@
     <button id="pushToUserButton">Push to User</button>
     
 </div>
-
-
 <div id="removeSelectionDialog" class="dialog">
     <span id="closeDialogButton" class="close">&times;</span>
     <p>Where do you want to remove the application?</p>
     <button id="removeToDeviceButton"> Remove from Device</button>
-    <button id="removeToUserButton">Remove to User</button>
+    <button id="removeToUserButton">Remove from User</button>
     
 </div>
-
 
 
 <div id="deviceGroupsDialog" class="dialog">
@@ -528,14 +445,15 @@
         <h2>Users Groups:</h2>
         <div id="userGroupsContent" class="content-section"></div>
     </div>
-
 </div>
 
-
-  <script>
-
+<script>
+        
+    
     //const accessToken = localStorage.getItem('accessToken');
     //const authforApp=localStorage.getItem('authforApp')
+    //const recovery_key_auth=localStorage.getItem('recovery_key_auth')
+
     let authforApp;
     const ServerUrl = 'https://intunewebutility.azurewebsites.net';
         fetch(`${ServerUrl}/getAccessToken`)
@@ -547,30 +465,32 @@
             })
             .then(data => {
                  authforApp = data.app_token;
-                //console.log('App Token:', authforApp);
+                 
                 // You can perform further actions with the app token here, if needed
             })
             .catch(error => {
                 console.error('Error:', error);
             });
-    //const recovery_key_auth=localStorage.getItem('recovery_key_auth')
     const machineSelect = document.getElementById('machine');
     const devicesData = []; // Store devices data (including IDs and names)
+    
+
+    
+    console.log('App Token:', authforApp);
+    // Add event listeners to input fields to update button status
     
     const ticketNoInput = document.getElementById('ticketNo');
     const userEmailInput = document.getElementById('userEmail');
     const getUserDevicesButton = document.getElementById('getUserDevices');
-    const syncButton = document.getElementById('syncAction');
-    const rebootButton = document.getElementById('rebootAction');
-    const recoveryKeyButton = document.getElementById('recoveryAction');
-    const pushAppButton = document.getElementById('pushAppAction');
-    const removeAppButton = document.getElementById('removeAppAction');
-    const remoteWipeButton = document.getElementById('wipeAction');
-    const remoteLockButton = document.getElementById('remoteLockAction');
+    const syncButton = document.getElementById('sync');
+    const remoteLockButton = document.getElementById('remoteLock');
+    const rebootButton = document.getElementById('reboot');
+    const recoveryKeyButton = document.getElementById('recoveryKey');
+    const pushAppButton = document.getElementById('pushApp');
+    const removeAppButton = document.getElementById('removeApp');
+    const remoteWipeButton = document.getElementById('remoteWipe');
     const resetButton = document.getElementById('reset');
     const cancelButton = document.getElementById('cancel');
-
-
 
     function isEmailValid(email) {
         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -591,7 +511,6 @@
     ticketNoInput.addEventListener('input', updateButtonStatus);
     userEmailInput.addEventListener('input', updateButtonStatus);
 
-
     // Event listener for the reset button
     resetButton.addEventListener('click', () => {
         // Clear input fields and disable buttons
@@ -610,28 +529,18 @@
     });
 
     // Event listener for the cancel button
+    // Event listener for the cancel button
     cancelButton.addEventListener('click', () => {
+        // Show a confirmation dialog
+        var result = confirm('Are you sure you want to log out?');
 
-        if (confirm('Logout button clicked. Do you want to logout?')) {
-            // User clicked "OK"
-            // Perform the logout action or redirect to the logout page
-            console.log('Logout confirmed. Logging out...');
+        if (result) {
+            // User clicked 'OK' (Yes), proceed with the logout action
+            
+            // Redirect or perform logout action here
             window.location.replace('index.html');
-
-        } else {
-            // User clicked "Cancel"
-            // No action needed or handle the cancellation as per your requirement
-            console.log('Logout canceled.');
-        }
-
-
-        // Implement the cancel action here (e.g., close the form)
-        //alert('Logout button clicked. Do you want to logout?');
-        //window.location.href = 'index.html';
-        //window.location.replace('index.html');
-
+        } 
     });
-
 
     // Event listener for the "Get User Devices" button
     getUserDevicesButton.addEventListener('click', () => {
@@ -680,8 +589,6 @@
             alert('Error fetching user devices. Please try again later.');
         });
     });
-
-    
     machineSelect.addEventListener('change', () => {
         // Enable the remaining buttons when a machine is selected
         syncButton.disabled = false;
@@ -694,9 +601,7 @@
     });
 
 
-     // Event listener for the "Sync" button
-
-syncButton.addEventListener('click', () => {
+    syncButton.addEventListener('click', () => {
         // Get the selected device ID
         const selectedDeviceId = machineSelect.options[machineSelect.selectedIndex].value;
         const selectedDeviceName=machineSelect.options[machineSelect.selectedIndex].text;
@@ -811,10 +716,6 @@ rebootButton.addEventListener('click', () => {
             alert(`Remote Lock is not supported for Windows or macOS.`);
         }
     });
-    
-
-
-    
     // Event listener for the "Wipe" button
     remoteWipeButton.addEventListener('click', () => {
         // Display the wipe modal when the button is clicked
@@ -973,21 +874,17 @@ rebootButton.addEventListener('click', () => {
     }
 });
 
-        // Function to create a custom dialog for selecting a group
-
-// Function to create a custom dialog for selecting a group
-
 // Store retrieved apps to prevent duplicates
 // Initialize the retrievedApps array
 let retrievedApps = [];
 
 
 pushAppButton.addEventListener('click', () => {
-    action_item = "push"
-
+    
     const selectedDeviceId = machineSelect.options[machineSelect.selectedIndex].azureADDeviceId;
     const selectedDeviceName = machineSelect.options[machineSelect.selectedIndex].text;
     const userEmail = userEmailInput.value.trim();
+    const Functionality = "push";
     // Make an API request to get applications
     fetch('https://graph.microsoft.com/v1.0/deviceAppManagement/mobileApps', {
         headers: {
@@ -1001,7 +898,7 @@ pushAppButton.addEventListener('click', () => {
 
             // Extract unique data types
             const dataTypes = [...new Set(data.value.map(app => app['@odata.type']))];
-            showDataTypesDialog(dataTypes,selectedDeviceId,userEmail,action_item);
+            showDataTypesDialog(dataTypes,selectedDeviceId,userEmail,Functionality);
         } else {
             alert('No applications found in Intune.');
         }
@@ -1012,42 +909,7 @@ pushAppButton.addEventListener('click', () => {
     });
 });
 
-
-removeAppButton.addEventListener('click', () => {
-    action_item = "remove"
-    console.log("inside remove app button")
-    const selectedDeviceId = machineSelect.options[machineSelect.selectedIndex].azureADDeviceId;
-    const selectedDeviceName = machineSelect.options[machineSelect.selectedIndex].text;
-    const userEmail = userEmailInput.value.trim();
-    // Make an API request to get applications
-    fetch('https://graph.microsoft.com/v1.0/deviceAppManagement/mobileApps', {
-        headers: {
-            'Authorization': `Bearer ${authforApp}`
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data && data.value && data.value.length > 0) {
-            retrievedApps = data.value;
-
-            // Extract unique data types
-            const dataTypes = [...new Set(data.value.map(app => app['@odata.type']))];
-            showDataTypesDialog(dataTypes,selectedDeviceId,userEmail,action_item);
-        } else {
-            alert('No applications found in Intune.');
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching applications:', error);
-        alert('Error fetching applications. Please try again later.');
-    });
-});
-
-
-
-function showDataTypesDialog(dataTypes,selectedDeviceId,userEmail,action_item) {
-    console.log("inside showDataTypesDialog function")
-
+function showDataTypesDialog(dataTypes,selectedDeviceId,userEmail,Functionality) {
     // Assuming you have a dialog element with an ID 'dataTypeDialog'
     const dataTypeDialog = document.getElementById('dataTypeDialog');
     const dataTypeList = document.getElementById('dataTypeList'); // Element to display data types
@@ -1059,12 +921,22 @@ function showDataTypesDialog(dataTypes,selectedDeviceId,userEmail,action_item) {
     dataTypes.forEach(dataType => {
         const dataTypeItem = document.createElement('div');
         dataTypeItem.classList.add('data-type-item');
-        dataTypeItem.textContent = dataType;
+        const dataTypeMappings = {
+        '#microsoft.graph.managedAndroidStoreApp': 'Managed Android Store App',
+        '#microsoft.graph.managedIOSStoreApp': 'Managed iOS Store App',
+        '#microsoft.graph.win32LobApp': 'Win32 Line of Business App',
+        '#microsoft.graph.iosStoreApp': 'iOS Store App',
+        '#microsoft.graph.windowsUniversalAppX': 'Windows Universal AppX',
+        '#microsoft.graph.windowsMicrosoftEdgeApp': 'Microsoft Edge for Windows',
+        '#microsoft.graph.windowsMobileMSI': 'Windows Mobile Installer',
+    };
+    const datatypeName = dataTypeMappings[dataType] || dataType;
+        dataTypeItem.textContent = datatypeName;
         dataTypeList.appendChild(dataTypeItem);
 
         // Handle click on data type item
         dataTypeItem.addEventListener('click', () => {
-            handleDataTypeSelection(dataType,selectedDeviceId,userEmail,action_item);
+            handleDataTypeSelection(dataType,selectedDeviceId,userEmail,Functionality);
             // Close the data type dialog or perform other actions as needed
         });
     });
@@ -1080,27 +952,24 @@ function showDataTypesDialog(dataTypes,selectedDeviceId,userEmail,action_item) {
 }
 
 // Function to handle data type selection
-function handleDataTypeSelection(selectedDataType,selectedDeviceId,userEmail,action_item) {
-console.log("inside handleDataTypeSelection function")
+function handleDataTypeSelection(selectedDataType,selectedDeviceId,userEmail,Functionality) {
 
 // Retrieve apps based on selected data type
-const appsForSelectedType = retrievedApps.filter(app => app['@odata.type'] === selectedDataType);
+const appsForSelectedType = retrievedApps.filter(app => app['@odata.type'] ===selectedDataType );
 
 if (appsForSelectedType.length > 0) {
     // Extract app names for display in a new dialog
     const appsList = appsForSelectedType.map(app => ({ id: app.id, displayName: app.displayName }));
     const appNamesForSelectedType = appsList.map(app => app.displayName);
     // Show a dialog with apps for the selected data type
-    showAppsForDataTypeDialog(appNamesForSelectedType, appsForSelectedType,appsList,selectedDeviceId,userEmail,action_item);
+    showAppsForDataTypeDialog(appNamesForSelectedType, appsForSelectedType,appsList,selectedDeviceId,userEmail,Functionality);
 } else {
     alert('No applications found for the selected data type.');
 }
 }
 
 // Function to display apps for a selected data type in a new dialog
-function showAppsForDataTypeDialog(appNames, appsData,appsList,selectedDeviceId,userEmail,action_item) {
-    console.log("inside showAppsForDataTypeDialog function")
-
+function showAppsForDataTypeDialog(appNames, appsData,appsList,selectedDeviceId,userEmail,Functionality) {
 // Assuming you have a dialog element with an ID 'appsForDataTypeDialog'
 const appsForDataTypeDialog = document.getElementById('appsForDataTypeDialog');
 const appListForDataType = document.getElementById('appListForDataType'); // Element to display apps
@@ -1110,6 +979,7 @@ appListForDataType.innerHTML = '';
 
 // Create and append app items to the list container
 appNames.forEach((appName, index) => {
+    
     const appItem = document.createElement('div');
     appItem.classList.add('app-item');
     appItem.textContent = appName;
@@ -1117,7 +987,7 @@ appNames.forEach((appName, index) => {
 
     // Handle click on app item
     appItem.addEventListener('click', () => {
-        handleAppSelection(index, appsList,selectedDeviceId,userEmail,action_item);
+        handleAppSelection(index, appsList,selectedDeviceId,userEmail,Functionality);
         // Close the apps for data type dialog or perform other actions as needed
     });
 });
@@ -1135,34 +1005,28 @@ modal1.style.display = 'none';
 
 
 // Function to handle selection of an application using the retrievedApps array
-function handleAppSelection(index, appsList,selectedDeviceId,userEmail,action_item) {
+function handleAppSelection(index, appsList,selectedDeviceId,userEmail,Functionality) {
     const selectedApp = appsList[index];
-    console.log("inside handleAppSelection function")
-
 
     if (selectedApp) {
-        if (action_item === 'push') 
-        {
-            // Show dialog to select where to push the application (to a device or a user)
-            displayPushSelectionDialog(selectedApp,selectedDeviceId,userEmail,action_item);
-        } 
-        else if (action_item === 'remove') 
-        {
-            console.log("calling displayRemoveSelectionDialog function")
- 
-            // Show dialog to select where to push the application (to a device or a user)
-                displayRemoveSelectionDialog(selectedApp,selectedDeviceId,userEmail,action_item);        }
 
+        if(Functionality=="push")
+        {
+         displayPushSelectionDialog(selectedApp,selectedDeviceId,userEmail);
+        }
+        else
+        {
+         displayRemoveSelectionDialog(selectedApp,selectedDeviceId,userEmail);
+        }
     } else {
         alert('Error: Unable to retrieve details for the selected application.');
     }
 }
 
 let devicePushListener, userPushListener, closeDialogListener;
-let deviceRemoveListener, userRemoveListener ;
 
 // Function to display the push selection dialog
-function displayPushSelectionDialog(selectedApp,selectedDeviceId,userEmail,action_item) {
+function displayPushSelectionDialog(selectedApp,selectedDeviceId,userEmail) {
     const pushDialog = document.getElementById('pushSelectionDialog');
     pushDialog.style.display = 'block';
 
@@ -1177,7 +1041,7 @@ function displayPushSelectionDialog(selectedApp,selectedDeviceId,userEmail,actio
 
     // Set up event listeners
     devicePushListener = () => {
-        handleDeviceSelection(selectedApp,selectedDeviceId,userEmail,action_item);
+        handleDeviceSelection(selectedApp,selectedDeviceId,userEmail);
         pushDialog.style.display = 'none';
     };
     userPushListener = () => {
@@ -1194,48 +1058,9 @@ function displayPushSelectionDialog(selectedApp,selectedDeviceId,userEmail,actio
 }
 
 
-// Function to display the push selection dialog
-function displayRemoveSelectionDialog(selectedApp,selectedDeviceId,userEmail,action_item) {
-    console.log("inside displayRemoveSelectionDialog function")
+// ... (Previous code remains the same)
 
-    const removeDialog = document.getElementById('removeSelectionDialog');
-    removeDialog.style.display = 'block';
-
-    const removeToDeviceButton = document.getElementById('removeToDeviceButton');
-    const removeToUserButton = document.getElementById('removeToUserButton');
-    const closeDialogButton = document.getElementById('closeDialogButton');
-
-    // Remove previous event listeners
-    removeToDeviceButton.removeEventListener('click', deviceRemoveListener);
-    removeToUserButton.removeEventListener('click', userRemoveListener);
-    closeDialogButton.removeEventListener('click', closeDialogListener);
-
-    // Set up event listeners
-    deviceRemoveListener = () => {
-        handleDeviceSelection(selectedApp,selectedDeviceId,userEmail,action_item);
-        removeDialog.style.display = 'none';
-    };
-    userRemoveListener = () => {
-        handleUserRemove(selectedApp,selectedDeviceId,userEmail,action_item);
-        removeDialog.style.display = 'none';
-    };
-    closeDialogListener = () => {
-        removeDialog.style.display = 'none';
-    };
-
-    removeToDeviceButton.addEventListener('click', deviceRemoveListener);
-    removeToUserButton.addEventListener('click', userRemoveListener);
-    closeDialogButton.addEventListener('click', closeDialogListener);
-}
-
-
-
-
-
-
-function handleDeviceSelection(selectedApp,selectedDeviceId,userEmail,action_item) {
-    console.log("inside handleDeviceSelection function")
-
+function handleDeviceSelection(selectedApp,selectedDeviceId,userEmail) {
     const mobileAppId = selectedApp.id;
 
     fetch(`https://graph.microsoft.com/v1.0/deviceAppManagement/mobileApps/${mobileAppId}/assignments`, {
@@ -1286,8 +1111,7 @@ function handleDeviceSelection(selectedApp,selectedDeviceId,userEmail,action_ite
             Promise.all(promises)
                 .then(() => {
                     if (deviceGroups.length > 0) {
-                        console.log(" calling displayDeviceGroupsDialog.....")
-                        displayDeviceGroupsDialog(deviceGroups,selectedDeviceId,userEmail,action_item);
+                        displayDeviceGroupsDialog(deviceGroups,selectedDeviceId,userEmail);
                     } else {
                         
                         alert('No groups found to add device,please check in intune portal manually .');
@@ -1334,9 +1158,7 @@ function fetchGroupMembers(groupId) {
 }
 
 
-function displayDeviceGroupsDialog(deviceGroups,selectedDeviceId,userEmail,action_item) {
-    console.log(" inside displayDeviceGroupsDialog.....")
-
+function displayDeviceGroupsDialog(deviceGroups,selectedDeviceId,userEmail) {
     const deviceGroupsDialog = document.getElementById('deviceGroupsDialog');
     const deviceGroupsContent = document.getElementById('deviceGroupsContent');
 
@@ -1350,31 +1172,13 @@ function displayDeviceGroupsDialog(deviceGroups,selectedDeviceId,userEmail,actio
         groupItem.classList.add('group-item');
         groupItem.textContent = `Group Name: ${group.groupName}, Intent: ${group.intent}`;
         groupItem.addEventListener('click', () => {
-
-            if (action_item === 'push') {
-                 confirmation = confirm(`Do you want to add the app to group: ${group.groupName}?`);
-
-            } else if (action_item === 'remove') {
-                 confirmation = confirm(`Do you want to remove the app to group: ${group.groupName}?`);
-            }
-
+            const confirmation = confirm(`Do you want to add the device to group: ${group.groupName}?`);
             if (confirmation) {
                 fetchGroupID(group.groupName)
                         .then(groupID => {
-                            if (groupID) 
-                            {
-                                if (action_item === 'push') {
-                                    addDeviceToGroup(groupID,group.groupName,selectedDeviceId) 
-                                }
-                                else if (action_item === 'remove') 
-                                {
-                                    console.log(groupID)
-                                    console.log(group.groupName)
-                                    console.log(userEmail)
-                                    console.log("calling removeDeviceToGroup function..")
-
-                                    removeDeviceToGroup(groupID,group.groupName,selectedDeviceId)
-                                }
+                            if (groupID) {
+                                
+                                addDeviceToGroup(groupID,group.groupName,selectedDeviceId)
                             } else {
                                 alert('Group ID not found.');
                             }
@@ -1395,7 +1199,8 @@ function displayDeviceGroupsDialog(deviceGroups,selectedDeviceId,userEmail,actio
     const closeButton = modal2.querySelector('.close');
     closeButton.onclick = function() {
     modal2.style.display = 'none';
-}
+};
+
 }
 
 // Function to handle the selection of pushing the app to a user
@@ -1469,83 +1274,8 @@ function handleUserPush(selectedApp,selectedDeviceId,userEmail) {
     });
 }
 
-
-// Function to handle the selection of removing the app to a user
-function handleUserRemove(selectedApp,selectedDeviceId,userEmail,action_item) {
-    const mobileAppId = selectedApp.id;
-
-    fetch(`https://graph.microsoft.com/v1.0/deviceAppManagement/mobileApps/${mobileAppId}/assignments`, {
-        headers: {
-            'Authorization': `Bearer ${authforApp}`
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data && data.value && data.value.length > 0) {
-            const assignments = data.value;
-            const userGroups = [];
-
-            const promises = assignments.map(assignment => {
-                const target = assignment.target;
-
-                if (target['@odata.type'] === '#microsoft.graph.groupAssignmentTarget') {
-                    const groupId = target.groupId;
-
-                    const groupDetailsPromise = fetchGroupDetails(groupId);
-                    const groupMembersPromise = fetchGroupMembers(groupId);
-
-                    return Promise.all([groupDetailsPromise, groupMembersPromise])
-                        .then(([groupDetails, members]) => {
-                            const groupName = groupDetails.displayName.toLowerCase();
-
-                            if (groupName.includes('user')) {
-                                userGroups.push({
-                                    groupName: groupDetails.displayName,
-                                    intent: assignment.intent
-                                });
-                            } else {
-                                const memberTypes = new Set(members.value.map(member => member['@odata.type']));
-                                if (memberTypes.size === 1 && memberTypes.has('#microsoft.graph.user')) {
-                                    userGroups.push({
-                                        groupName: groupDetails.displayName,
-                                        intent: assignment.intent
-                                    });
-                                }
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error fetching group details or members:', error);
-                        });
-                }
-            });
-
-            Promise.all(promises)
-                .then(() => {
-                    if (userGroups.length > 0) {
-                        displayUserGroupsDialog(userGroups,selectedDeviceId,userEmail,action_item);
-                    } else {
-                        alert('No user groups found to remove the app. Please check in Intune portal manually.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error in Promise.all:', error);
-                });
-        } else {
-            alert('No app assignments found for the selected app. Please check in Intune portal manually.');
-            // Handle scenario where no app assignments are found
-        }
-    })
-    .catch(error => {
-        console.error('Error fetching app assignments:', error);
-        // Handle errors as needed
-    });
-}
-
-
-
-
 // Function to display user groups dialog
-function displayUserGroupsDialog(userGroups,selectedDeviceId,userEmail,action_item) {
+function displayUserGroupsDialog(userGroups,selectedDeviceId,userEmail) {
     const userGroupsDialog = document.getElementById('userGroupsDialog');
     const userGroupsContent = document.getElementById('userGroupsContent');
 
@@ -1559,24 +1289,14 @@ function displayUserGroupsDialog(userGroups,selectedDeviceId,userEmail,action_it
         groupItem.classList.add('group-item');
         groupItem.textContent = `Group Name: ${group.groupName}, Intent: ${group.intent}`;
         groupItem.addEventListener('click', () => {
-            if (action_item === 'push') {
-                 confirmation = confirm(`Do you want to add the app to group: ${group.groupName}?`);
-
-            } else if (action_item === 'remove') {
-                 confirmation = confirm(`Do you want to remove the app to group: ${group.groupName}?`);
-            }
+            const confirmation = confirm(`Do you want user to be added to group: ${group.groupName}?`);
             if (confirmation) {
                 
                 fetchGroupID(group.groupName)
                         .then(groupID => {
                             if (groupID) {
-                                if (action_item === 'push') {
-                                    addUserToGroup(groupID,group.groupName,userEmail) }
-                                    else if (action_item === 'remove') {
                                 
-                                    removeUserToGroup(groupID,group.groupName,userEmail)
-                                }
-
+                                addUserToGroup(groupID,group.groupName,userEmail)
                             } else {
                                 alert('Group ID not found.');
                             }
@@ -1596,14 +1316,20 @@ function displayUserGroupsDialog(userGroups,selectedDeviceId,userEmail,action_it
     closeButton.onclick = function() {
         userGroupsDialog.style.display = 'none';
     };
-
+    
 }
-
-
-
-function addDeviceToGroup(groupId,groupName,deviceId) 
-{    
-      // Check if the device is already part of the group
+function closeallUserDialogs(){
+   userGroupsDialog.style.display='none';
+   appsForDataTypeDialog.style.display='none';
+   dataTypeDialog.style.dispaly='none';
+}
+function closeallDeviceDialogs(){
+    deviceGroupsDialog.style.display='none';
+    appsForDataTypeDialog.style.display='none';
+    dataTypeDialog.style.display='none';
+}
+function addDeviceToGroup(groupId, groupName, deviceId) {
+    // Check if the device is already part of the group
     checkIfDeviceExistsInGroup(deviceId, groupId, authforApp)
         .then(function (isDeviceInGroup) {
             if (isDeviceInGroup) {
@@ -1666,7 +1392,9 @@ function addDeviceToGroup(groupId,groupName,deviceId)
             console.error('Error adding device to group:', error);
             
         });
+        
 }
+
 // Function to check if a device exists in the group
 function checkIfDeviceExistsInGroup(selectedDeviceId, selectedGroupId, accessToken) {
     return fetch(`https://graph.microsoft.com/v1.0/groups/${selectedGroupId}/members/microsoft.graph.device`, {
@@ -1691,64 +1419,7 @@ function checkIfDeviceExistsInGroup(selectedDeviceId, selectedGroupId, accessTok
         });
 }
 
-function removeDeviceToGroup(groupId, groupName, deviceId) 
-{
-    fetch(`https://graph.microsoft.com/v1.0/devices`, {
-        headers: {
-            'Authorization': `Bearer ${accessToken}`
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Failed to fetch devices. Status: ${response.status}`);
-        }
-        return response.json();
-    })
-
-    .then(devicesData => {
-        const matchingDevice = devicesData.value.find(device => device.deviceId === deviceId);
-        console.log('Matching Device:', matchingDevice);
-            if (matchingDevice) {
-                console.log('inside remove if condition...')
-            const body = {
-                '@odata.id': `https://graph.microsoft.com/v1.0/devices/${matchingDevice.id}`
-            };
-
-            return fetch(`https://graph.microsoft.com/v1.0/groups/${groupId}/members/${matchingDevice.id}/$ref`, {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': `Bearer ${authforApp}`,
-                    'Content-Type': 'application/json'
-                },
-            });
-        } else {
-            throw new Error('Device not found.');
-        }
-    })
-    .then(response => {
-        if (response.ok) {
-            alert(`Device removed from group "${groupName}" successfully.`);
-          closeallDeviceDialogs();
-        }
-        else if (response.status === 403) {
-                alert('You do not have enough permission to remove device from this group.');
-            }else {
-            alert('failed to remove device')
-        }
-    })
-    .catch(error => {
-        console.error('Error removing device to group:', error);
-        alert('Failed to remove device to group. Please check your network connection or try again later.');
-    });
-
-
-}
-
-
-
-function addUserToGroup(groupId,groupName,userEmail) {
-
-    
+function addUserToGroup(groupId, groupName, userEmail) {
     // Check if the user already exists in the group
     checkIfUserExistsInGroup(userEmail, groupId, authforApp)
         .then(function (userExists) {
@@ -1787,6 +1458,7 @@ function addUserToGroup(groupId,groupName,userEmail) {
         });
 }
 
+// Function to check if a user exists in the group
 function checkIfUserExistsInGroup(userEmail, selectedGroupId, accessToken) {
     return fetch(`https://graph.microsoft.com/v1.0/groups/${selectedGroupId}/members`, {
         headers: {
@@ -1814,33 +1486,6 @@ function checkIfUserExistsInGroup(userEmail, selectedGroupId, accessToken) {
 
 
 
-function removeUserToGroup(groupId,groupName,userEmail) 
-{
-    fetch(`https://graph.microsoft.com/v1.0/groups/${groupId}/members/$ref`, {
-        method: 'DELETE',
-        headers: {
-            'Authorization': `Bearer ${authforApp}`,
-            'Content-Type': 'application/json' // Include Content-Type header
-        },
-    })
-    .then(response => {
-        if (response.ok) {
-            alert(`User removed from group "${groupName}" successfully`);
-          closeallUserDialogs();
-        } 
-        else if (response.status === 403) {
-                alert('You do not have enough permission to remove user from this group.');
-            }else {
-            alert(`Failed to remove user to group: ${groupName}`);
-        }
-    })
-    .catch(error => {
-        console.error('Error removing user to group:', error);
-        alert('Failed to remove user to group. Please check your network connection or try again later.');
-    });
-}
-
-
 
 function fetchGroupID(groupName) {
     return fetch(`https://graph.microsoft.com/v1.0/groups?$filter=displayName eq '${groupName}'`, {
@@ -1862,40 +1507,400 @@ function fetchGroupID(groupName) {
 }
 
 
-// Event Listener to close the Modals
+
+
+
+
+
+removeAppButton.addEventListener('click', () => {
+    
+    const selectedDeviceId = machineSelect.options[machineSelect.selectedIndex].azureADDeviceId;
+    const selectedDeviceName = machineSelect.options[machineSelect.selectedIndex].text;
+    const userEmail = userEmailInput.value.trim();
+    const Functionality="remove"
+
+    // Make an API request to get applications
+    fetch('https://graph.microsoft.com/v1.0/deviceAppManagement/mobileApps', {
+        headers: {
+            'Authorization': `Bearer ${authforApp}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && data.value && data.value.length > 0) {
+            retrievedApps = data.value;
+
+            // Extract unique data types
+            const dataTypes = [...new Set(data.value.map(app => app['@odata.type']))];
+            showDataTypesDialog(dataTypes,selectedDeviceId,userEmail,Functionality);
+        } else {
+            alert('No applications found in Intune.');
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching applications:', error);
+        alert('Error fetching applications. Please try again later.');
+    });
+});
+
+
+
+
+
+
+let deviceRemoveListener, userRemoveListener, closeDialogListener1;
+
+// Function to display the push selection dialog
+function displayRemoveSelectionDialog(selectedApp,selectedDeviceId,userEmail) {
+    const removeDialog = document.getElementById('removeSelectionDialog');
+    removeDialog.style.display = 'block';
+
+    const removeToDeviceButton = document.getElementById('removeToDeviceButton');
+    const removeToUserButton = document.getElementById('removeToUserButton');
+    const closeDialogButton = document.getElementById('closeDialogButton');
+
+    // Remove previous event listeners
+    removeToDeviceButton.removeEventListener('click', deviceRemoveListener);
+    removeToUserButton.removeEventListener('click', userRemoveListener);
+    closeDialogButton.removeEventListener('click', closeDialogListener1);
+
+    // Set up event listeners
+    deviceRemoveListener = () => {
+        handleDeviceSelectionforremove(selectedApp,selectedDeviceId,userEmail);
+        removeDialog.style.display = 'none';
+    };
+    userRemoveListener = () => {
+        handleUserRemove(selectedApp,selectedDeviceId,userEmail);
+        removeDialog.style.display = 'none';
+    };
+    closeDialogListener1 = () => {
+        removeDialog.style.display = 'none';
+    };
+
+    removeToDeviceButton.addEventListener('click', deviceRemoveListener);
+    removeToUserButton.addEventListener('click', userRemoveListener);
+    closeDialogButton.addEventListener('click', closeDialogListener);
+}
+
+
+function handleDeviceSelectionforremove(selectedApp,selectedDeviceId,userEmail) {
+    const mobileAppId = selectedApp.id;
+
+    fetch(`https://graph.microsoft.com/v1.0/deviceAppManagement/mobileApps/${mobileAppId}/assignments`, {
+        headers: {
+            'Authorization': `Bearer ${authforApp}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && data.value && data.value.length > 0) {
+            const assignments = data.value;
+            const deviceGroups = [];
+
+            const promises = assignments.map(assignment => {
+                const target = assignment.target;
+
+                if (target['@odata.type'] === '#microsoft.graph.groupAssignmentTarget') {
+                    const groupId = target.groupId;
+
+                    const groupDetailsPromise = fetchGroupDetails(groupId);
+                    const groupMembersPromise = fetchGroupMembers(groupId);
+
+                    return Promise.all([groupDetailsPromise, groupMembersPromise])
+                        .then(([groupDetails, members]) => {
+                            const groupName = groupDetails.displayName.toLowerCase();
+
+                            if (groupName.includes('device')) {
+                                deviceGroups.push({
+                                    groupName: groupDetails.displayName,
+                                    intent: assignment.intent
+                                });
+                            } else {
+                                const memberTypes = new Set(members.value.map(member => member['@odata.type']));
+                                if (memberTypes.size === 1 && memberTypes.has('#microsoft.graph.device')) {
+                                    deviceGroups.push({
+                                        groupName: groupDetails.displayName,
+                                        intent: assignment.intent
+                                    });
+                                }
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching group details or members:', error);
+                        });
+                }
+            });
+
+            Promise.all(promises)
+                .then(() => {
+                    if (deviceGroups.length > 0) {
+                        displayDeviceGroupsDialogforremove(deviceGroups,selectedDeviceId,userEmail);
+                    } else {
+                        
+                        alert('No groups found to add device,please check in intune portal manually .');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error in Promise.all:', error);
+                });
+        } else {
+            alert('No app assignments found for the selected app,please check in intune portal manually .');
+            // Handle scenario where no app assignments are found
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching app assignments:', error);
+        // Handle errors as needed
+    });
+}
+
+
+
+
+
+
+function displayDeviceGroupsDialogforremove(deviceGroups,selectedDeviceId,userEmail) {
+    const deviceGroupsDialog = document.getElementById('deviceGroupsDialog');
+    const deviceGroupsContent = document.getElementById('deviceGroupsContent');
+
+    // Clear previous content
+    deviceGroupsContent.innerHTML = '';
+
+    // Create and append group items to the dialog
+    deviceGroups.forEach(group => {
+        if(group.intent!=='uninstall'){
+        const groupItem = document.createElement('div');
+        groupItem.classList.add('group-item');
+        groupItem.textContent = `Group Name: ${group.groupName}, Intent: ${group.intent}`;
+        groupItem.addEventListener('click', () => {
+            const confirmation = confirm(`Do you want to remove the device from group: ${group.groupName}?`);
+            if (confirmation) {
+                fetchGroupID(group.groupName)
+                        .then(groupID => {
+                            if (groupID) {
+                                
+                                removeDeviceToGroup(groupID,group.groupName,selectedDeviceId)
+                            } else {
+                                alert('Group ID not found.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching group ID:', error);
+                        });
+                
+            }
+        });
+        deviceGroupsContent.appendChild(groupItem);
+    }
+    });
+
+    // Show the device groups dialog
+    const modal2 = document.getElementById('deviceGroupsDialog');
+    modal2.style.display = 'block';
+    const closeButton = modal2.querySelector('.close');
+    closeButton.onclick = function() {
+    modal2.style.display = 'none';
+}
+}
+
+// Function to handle the selection of removing the app to a user
+function handleUserRemove(selectedApp,selectedDeviceId,userEmail) {
+    const mobileAppId = selectedApp.id;
+
+    fetch(`https://graph.microsoft.com/v1.0/deviceAppManagement/mobileApps/${mobileAppId}/assignments`, {
+        headers: {
+            'Authorization': `Bearer ${authforApp}`
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && data.value && data.value.length > 0) {
+            const assignments = data.value;
+            const userGroups = [];
+
+            const promises = assignments.map(assignment => {
+                const target = assignment.target;
+
+                if (target['@odata.type'] === '#microsoft.graph.groupAssignmentTarget') {
+                    const groupId = target.groupId;
+
+                    const groupDetailsPromise = fetchGroupDetails(groupId);
+                    const groupMembersPromise = fetchGroupMembers(groupId);
+
+                    return Promise.all([groupDetailsPromise, groupMembersPromise])
+                        .then(([groupDetails, members]) => {
+                            const groupName = groupDetails.displayName.toLowerCase();
+
+                            if (groupName.includes('user')) {
+                                userGroups.push({
+                                    groupName: groupDetails.displayName,
+                                    intent: assignment.intent
+                                });
+                            } else {
+                                const memberTypes = new Set(members.value.map(member => member['@odata.type']));
+                                if (memberTypes.size === 1 && memberTypes.has('#microsoft.graph.user')) {
+                                    userGroups.push({
+                                        groupName: groupDetails.displayName,
+                                        intent: assignment.intent
+                                    });
+                                }
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching group details or members:', error);
+                        });
+                }
+            });
+
+            Promise.all(promises)
+                .then(() => {
+                    if (userGroups.length > 0) {
+                        displayUserGroupsDialogforremove(userGroups,selectedDeviceId,userEmail);
+                    } else {
+                        alert('No user groups found to remove the app. Please check in Intune portal manually.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error in Promise.all:', error);
+                });
+        } else {
+            alert('No app assignments found for the selected app. Please check in Intune portal manually.');
+            // Handle scenario where no app assignments are found
+        }
+    })
+    .catch(error => {
+        console.error('Error fetching app assignments:', error);
+        // Handle errors as needed
+    });
+}
+
+// Function to display user groups dialog
+function displayUserGroupsDialogforremove(userGroups,selectedDeviceId,userEmail) {
+    const userGroupsDialog = document.getElementById('userGroupsDialog');
+    const userGroupsContent = document.getElementById('userGroupsContent');
+
+    // Clear previous content
+    userGroupsContent.innerHTML = '';
+
+    // Create and append group items to the dialog
+    userGroups.forEach(group => {
+        if(group.intent!=='uninstall'){
+        const groupItem = document.createElement('div');
+        groupItem.classList.add('group-item');
+        groupItem.textContent = `Group Name: ${group.groupName}, Intent: ${group.intent}`;
+        groupItem.addEventListener('click', () => {
+            const confirmation = confirm(`Do you want to remove the user from group: ${group.groupName}?`);
+            if (confirmation) {
+                
+                fetchGroupID(group.groupName)
+                        .then(groupID => {
+                            if (groupID) {
+                                
+                                removeUserToGroup(groupID,group.groupName,userEmail)
+                            } else {
+                                alert('Group ID not found.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching group ID:', error);
+                        });
+            }
+        });
+        userGroupsContent.appendChild(groupItem);
+    }
+    });
+
+    // Show the user groups dialog
+    userGroupsDialog.style.display = 'block';
+    const closeButton = userGroupsDialog.querySelector('.close');
+    closeButton.onclick = function() {
+        userGroupsDialog.style.display = 'none';
+    };
+}
+
+function removeDeviceToGroup(groupId, groupName, deviceId) 
+{
+    fetch(`https://graph.microsoft.com/v1.0/devices`, {
+        headers: {
+            'Authorization': `Bearer ${accessToken}`
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Failed to fetch devices. Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(devicesData => {
+        const matchingDevice = devicesData.value.find(device => device.deviceId === deviceId);
+        if (matchingDevice) {
+            const body = {
+                '@odata.id': `https://graph.microsoft.com/v1.0/devices/${matchingDevice.id}`
+            };
+
+            return fetch(`https://graph.microsoft.com/v1.0/groups/${groupId}/members/${matchingDevice.id}/$ref`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${authforApp}`,
+                    'Content-Type': 'application/json'
+                },
+            });
+        } else {
+            throw new Error('Device not found.');
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            alert(`Device removed from group "${groupName}" successfully.`);
+            closeallDeviceDialogs();
+        }else if (response.status === 403) {
+                alert('You do not have enough permission to remove device from this group.');
+            }  
+        else {
+            alert('failed to remove device')
+        }
+    })
+    .catch(error => {
+        console.error('Error removing device to group:', error);
+        alert('Failed to remove device from group. Please check your network connection or try again later.');
+    });
+
+
+}
+
+
+
+function removeUserToGroup(groupId,groupName,userEmail) 
+{
+    fetch(`https://graph.microsoft.com/v1.0/groups/${groupId}/members/$ref`, {
+        method: 'DELETE',
+        headers: {
+            'Authorization': `Bearer ${authforApp}`,
+            'Content-Type': 'application/json' // Include Content-Type header
+        },
+    })
+    .then(response => {
+        if (response.ok) {
+            alert(`User removed from group "${groupName}" successfully.`);
+            closeallUserDialogs();
+        } else if (response.status === 403) {
+                alert('You do not have enough permission to remove users from this group.');
+            } else {
+            alert(`Failed to remove user to group "${groupName}" `);
+        }
+    })
+    .catch(error => {
+        console.error('Error removing user to group:', error);
+        alert('Failed to remove user to group. Please check your network connection or try again later.');
+    });
+}
+
 
 document.getElementById("closeWipeModal").addEventListener("click", () => {
     document.getElementById("wipeModal").style.display = "none";
   });
 
-  // Function to close the groupSelectionModal
-  document.getElementById("closeGroupModal").addEventListener("click", () => {
-    document.getElementById("groupSelectionModal").style.display = "none";
-  });
 
-  // Function to close the deviceSelectionModal
-  document.getElementById("closeDeviceSelectionModal").addEventListener("click", () => {
-    document.getElementById("deviceSelectionModal").style.display = "none";
-  });
-
-  // Function to close the deviceRemovalModal
-  document.getElementById("closeDeviceRemovalModal").addEventListener("click", () => {
-    document.getElementById("deviceRemovalModal").style.display = "none";
-  });
-
-function closeallUserDialogs(){
-   userGroupsDialog.style.display='none';
-   appsForDataTypeDialog.style.display='none';
-   dataTypeDialog.style.dispaly='none';
-}
-function closeallDeviceDialogs(){
-    deviceGroupsDialog.style.display='none';
-    appsForDataTypeDialog.style.display='none';
-    dataTypeDialog.style.display='none';
-}
-
-
-  </script>
-
+</script>
 </body>
 </html>
