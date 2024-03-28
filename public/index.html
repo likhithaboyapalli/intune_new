@@ -8,24 +8,18 @@
 <body>
     <h>Hello world !!</h>
     <script>
-        let authforApp; // Variable to store the app token
-        const ServerUrl='https://intunecontrol.azurewebsites.net'
-        fetch(`${ServerUrl}/getAccessToken`, {
-                method: 'GET',
-                // Set a timeout for the fetch request
-                timeout: 5000, // 5 seconds
-            }).then(response => {
+        const ServerUrl = 'https://intunecontrol.azurewebsites.net';
+        fetch(`${ServerUrl}/getAccessToken`)
+            .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to get app token');
                 }
                 return response.json();
             })
             .then(data => {
-                // Store the app token in the variable
-                authforApp = data.app_token;
-
-                // You can perform further actions with the app token here, if needed
+                const authforApp = data.app_token;
                 console.log('App Token:', authforApp);
+                // You can perform further actions with the app token here, if needed
             })
             .catch(error => {
                 console.error('Error:', error);
