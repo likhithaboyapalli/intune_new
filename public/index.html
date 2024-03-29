@@ -453,24 +453,31 @@
     //const accessToken = localStorage.getItem('accessToken');
     //const authforApp=localStorage.getItem('authforApp')
     //const recovery_key_auth=localStorage.getItem('recovery_key_auth')
+    
 
-    const authforApp='';
+    // Check if the token exists in localStorage
+    let authforApp = localStorage.getItem('authToken');
+   if (!authforApp) {
     const ServerUrl = 'https://intunewebutility.azurewebsites.net';
-        fetch(`${ServerUrl}/getAccessToken`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to get app token');
-                }
-                return response.json();
-            })
-            .then(data => {
-                 authforApp = data.app_token;
-                 
-                // You can perform further actions with the app token here, if needed
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+    fetch(`${ServerUrl}/getAccessToken`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to get app token');
+            }
+            return response.json();
+        })
+        .then(data => {
+            authforApp = data.app_token;
+            localStorage.setItem('authToken', authforApp);
+            // You can perform further actions with the app token here, if needed
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+// Usage
+console.log('App Token:', authforApp); // Access the token outside of the fetch call
     const machineSelect = document.getElementById('machine');
     const devicesData = []; // Store devices data (including IDs and names)
     
