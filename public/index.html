@@ -477,7 +477,8 @@
 }
 
 // Usage
-console.log('App Token:', authforApp); // Access the token outside of the fetch call
+   authforApp= localStorage.getItem('authToken');
+   console.log('App Token:', authforApp); // Access the token outside of the fetch call
     const machineSelect = document.getElementById('machine');
     const devicesData = []; // Store devices data (including IDs and names)
     
