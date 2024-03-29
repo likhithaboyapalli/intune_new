@@ -468,6 +468,7 @@
         })
         .then(data => {
             authforApp = data.app_token;
+            console.log('App Token:', authforApp);
             localStorage.setItem('authToken', authforApp);
             // You can perform further actions with the app token here, if needed
         })
