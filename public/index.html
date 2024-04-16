@@ -178,10 +178,10 @@
         <button id="sync" disabled>Sync</button>    
         <button id="reboot" disabled>Reboot</button>
         <button id="recoveryKey" disabled>Recovery Key</button>
+        <button id="remoteLock" disabled>Remote Lock</button>
         <button id="pushApp" disabled>Push App</button>
         <button id="removeApp" disabled>Remove App</button> 
         <button id="remoteWipe" disabled>Remote Wipe</button>
-        <button id="remoteLock" disabled>Remote Lock</button>
         <button class="reset-button" id="reset">Reset</button>
         <button class="cancel-button" id="cancel">Logout</button>
     </div>
@@ -240,6 +240,7 @@
         }
 
         authforApp = localStorage.getItem('authToken');
+        console.log(authforApp)
         recovery_key_auth = localStorage.getItem('recovery_key_auth')
 
         const machineSelect = document.getElementById('machine');
@@ -290,10 +291,10 @@
             syncButton.disabled = true;
             rebootButton.disabled = true;
             recoveryKeyButton.disabled = true;
-            pushAppButton.disabled = true;
-            removeAppButton.disabled = true;
-            remoteLockButton.disabled = true;
-            remoteWipeButton.disabled = true;
+            // pushAppButton.disabled = true;
+            // removeAppButton.disabled = true;
+             remoteLockButton.disabled = true;
+            // remoteWipeButton.disabled = true;
         });
 
         cancelButton.addEventListener('click', () => {
