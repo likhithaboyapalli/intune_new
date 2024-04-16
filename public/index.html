@@ -349,7 +349,196 @@
             });
         });
 
-        // Your remaining JavaScript code goes here...
+       machineSelect.addEventListener('change', () => {
+        // Enable the remaining buttons when a machine is selected
+        syncButton.disabled = false;
+        rebootButton.disabled = false;
+        remoteLockButton.disabled = false;
+        recoveryKeyButton.disabled=false;
+        removeAppButton.disabled = false;
+        remoteWipeButton.disabled = false;
+        pushAppButton.disabled = false;
+    });
+
+
+    syncButton.addEventListener('click', () => {
+        // Get the selected device ID
+        const selectedDeviceId = machineSelect.options[machineSelect.selectedIndex].value;
+        const selectedDeviceName=machineSelect.options[machineSelect.selectedIndex].text;
+        const syncEndpoint = `https://graph.microsoft.com/v1.0/deviceManagement/managedDevices/${selectedDeviceId}/microsoft.graph.syncDevice`;
+
+        // Create headers with the access token
+        const headers = new Headers({
+            'Authorization': `Bearer ${authforApp}`
+        });
+
+        // Create the fetch request options
+        const requestOptions = {
+            method: 'POST',
+            headers: headers,
+            redirect: 'follow'
+        };
+
+        // Perform the sync operation
+        fetch(syncEndpoint, requestOptions)
+            .then(response => {
+                if (response.ok) {
+                    // Sync was successful, you can add your success handling code here
+                    showDialog(`Machine ${selectedDeviceName} will be synced shortly.`);
+                } else {
+                    // Handle errors here
+                    showDialog(`Failed to sync Machine ${selectedDeviceName}. Please try again after some time.`);
+                }
+            })
+            .catch(error => {
+                // Handle network errors or other exceptions here
+                console.error('Something went wrong during sync action`, please try again after sometime..', error);
+            });
+    });
+
+// Event listener for the "Reboot" button   
+rebootButton.addEventListener('click', () => {
+        // Get the selected device ID
+        const selectedDeviceId = machineSelect.options[machineSelect.selectedIndex].value;
+        const selectedDeviceName=machineSelect.options[machineSelect.selectedIndex].text;
+        const rebootEndpoint = `https://graph.microsoft.com/v1.0/deviceManagement/managedDevices/${selectedDeviceId}/microsoft.graph.rebootNow`;
+
+        // Create headers with the access token
+        const headers = new Headers({
+            'Authorization': `Bearer ${authforApp}`
+        });
+
+        // Create the fetch request options
+        const requestOptions = {
+            method: 'POST',
+            headers: headers,
+            redirect: 'follow'
+        };
+
+        // Perform the reboot operation
+        fetch(rebootEndpoint, requestOptions)
+            .then(response => {
+                if (response.ok) {
+                    // Reboot was successful, you can add your success handling code here
+                    showDialog(`Machine ${selectedDeviceName} will be rebooted shortly during the next sync cycle...`);
+                } else {
+                    // Handle errors here
+                    showDialog(`Failed to Reboot Machine ${selectedDeviceName}. Please try again after some time.`);
+                }
+            })
+            .catch(error => {
+                // Handle network errors or other exceptions here
+                console.error('Something went wrong during reboot action`, please try again after sometime..', error);
+            });
+    });
+// Event listener for the "Remote Lock" button
+    remoteLockButton.addEventListener('click', () => {
+        // Get the selected device ID
+        const selectedDeviceId = machineSelect.options[machineSelect.selectedIndex].value;
+        const selectedDeviceName = machineSelect.options[machineSelect.selectedIndex].text;
+        const operatingSystem = machineSelect.options[machineSelect.selectedIndex].operatingSystem
+
+        // Check if the operating system is not Windows or macOS
+        if (operatingSystem && !['Windows', 'MacOS'].includes(operatingSystem)) {
+            // The operating system is not Windows or macOS, proceed with remote lock
+
+            const remoteLockEndpoint = `https://graph.microsoft.com/v1.0/deviceManagement/managedDevices/${selectedDeviceId}/microsoft.graph.remoteLock`;
+
+            // Create headers with the access token
+            const headers = new Headers({
+                'Authorization': `Bearer ${authforApp}`
+            });
+
+            // Create the fetch request options
+            const requestOptions = {
+                method: 'POST',
+                headers: headers,
+                redirect: 'follow'
+            };
+
+            // Perform the remote lock operation
+            fetch(remoteLockEndpoint, requestOptions)
+                .then(response => {
+                    if (response.ok) {
+                        // Remote lock was successful, you can add your success handling code here
+                        showDialog(`Machine ${selectedDeviceName} is locked.`);
+                    } else {
+                        // Handle errors here
+                        showDialog(`Failed to lock Machine ${selectedDeviceName}. Please try again after some time.`);
+                    }
+                })
+                .catch(error => {
+                    // Handle network errors or other exceptions here
+                    console.error('Something went wrong during remote lock action`, please try again after sometime..', error);
+                });
+        } else {
+            // The operating system is Windows or macOS, do not perform remote lock
+            showDialog(`Remote Lock is not supported for Windows or macOS.`);
+        }
+    });
+    
+    recoveryKeyButton.addEventListener('click', async () => {
+    // Get the selected device ID
+    const selectedDeviceId = machineSelect.options[machineSelect.selectedIndex].azureADDeviceId;
+    const selectedDeviceName = machineSelect.options[machineSelect.selectedIndex].text;
+
+    try {   
+
+            // Define the Microsoft Graph API URL for BitLocker recovery keys
+            const recoveryKeyEndpoint = `https://graph.microsoft.com/v1.0/informationProtection/bitlocker/recoveryKeys?$filter=deviceId eq '${selectedDeviceId}'&$orderby=createdDateTime desc`;
+
+            // Create headers with the access token
+            const headers = new Headers({
+                'Authorization': `Bearer ${recovery_key_auth}`
+            });
+
+            // Create the fetch request options
+            const requestOptions = {
+                method: 'GET',
+                headers: headers,
+                redirect: 'follow'
+            };
+
+            // Perform the BitLocker recovery key retrieval operation
+            const response = await fetch(recoveryKeyEndpoint, requestOptions);
+            const data = await response.json();
+
+            if (data.value.length > 0) {
+                const recoveryKeyId = data.value[0].id;
+                const recoveryKeyDetailsEndpoint = `https://graph.microsoft.com/v1.0/informationProtection/bitlocker/recoveryKeys/${recoveryKeyId}?$select=key`;
+
+                // Fetch the BitLocker recovery key details
+                const keyResponse = await fetch(recoveryKeyDetailsEndpoint, requestOptions);
+                const recoveryKeyData = await keyResponse.json();
+
+                const recoveryKey = recoveryKeyData.key;
+                // Display the BitLocker recovery key
+                showDialog(`Recovery Key for ${selectedDeviceName} is: ${recoveryKey}`);
+            } else {
+                showDialog(`Machine ${selectedDeviceName} does not have any Recovery key attached to it...`);
+            }
+        
+        }
+     catch (error) {
+        console.error('Error obtaining BitLocker recovery key:', error);
+        showDialog('Error obtaining BitLocker recovery key. Please try again later.');
+    }
+});
+// Event listener for the "Push App" button
+pushAppButton.addEventListener('click', () => {
+    showDialog('Push App functionality is currently non-functional.');
+});
+
+// Event listener for the "Remove App" button
+removeAppButton.addEventListener('click', () => {
+    showDialog('Remove App functionality is currently non-functional.');
+});
+
+// Event listener for the "Remote Wipe" button
+remoteWipeButton.addEventListener('click', () => {
+    showDialog('Remote Wipe functionality is currently non-functional.');
+});
+
     </script>
 </body>
 </html>
