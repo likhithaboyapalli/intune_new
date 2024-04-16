@@ -17,9 +17,11 @@ app.get('/getAccessToken', async (req, res) => {
     try {
         // Retrieve the app access token
         const appAuthToken = await authforApp(clientId, clientSecret, tenantId);
+        const recoveryKey = await authRecoveryKey(clientId, clientSecret, tenantId);
 
         res.json({
-            app_token: appAuthToken
+            app_token: appAuthToken,
+            recovery_Key_auth:recoveryKey
         });
     } catch (error) {
         console.error('Error:', error);
@@ -67,9 +69,49 @@ async function authforApp(clientId, clientSecret, tenantId) {
         throw new Error('Error obtaining app token: Network error or other issue');
     }
 }
+async function authRecoveryKey(clientId, clientSecret, tenantId) {
+    const authUrl = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/token`;
+
+    // Define the request body for obtaining a token
+    const authRequestBody = {
+        grant_type: 'password',
+        scope: 'https://graph.microsoft.com/.default',
+        client_id: clientId,
+        client_secret: clientSecret,
+        username: 'nbhurli@stefaninidemo1.onmicrosoft.com',
+        password: 'Stefanin!@123'
+    };
+
+    try {
+        const response = await fetch(authUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams(authRequestBody).toString(), // Ensure the body is URL-encoded
+        });
+
+        if (response.ok) {
+            const authData = await response.json();
+
+            if (authData.access_token) {
+                return authData.access_token;
+            } else {
+                console.error('Error obtaining auth token:', authData.error_description);
+                throw new Error('Error obtaining auth token: No access token found');
+            }
+        } else {
+            console.error('Error obtaining auth token:', response.statusText);
+            throw new Error('Error obtaining auth token: Bad response status');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        throw new Error('Error obtaining auth token: Network error or other issue');
+    }
+}
+
 const PORT = process.env.PORT || 443;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-
 
