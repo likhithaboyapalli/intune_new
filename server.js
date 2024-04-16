@@ -6,7 +6,7 @@ const app = express();
 
 // Your Azure AD configuration
 const clientId = 'b87e48d6-2c35-4937-aef2-ff5c3f68b01d';
-const clientSecret = 'q_k8Q~CHceybU8IKX4mBD8~giVztSNAWwfZsPbbi';
+const clientSecret = 'r.H8Q~ltGKpUeoUIwgFLbNrrCcT6WjbQPT5DIa3W';
 const tenantId = 'fdc223cd-8687-48e5-b9e8-ad52f8adbdaa';
 
 app.use(cors());
@@ -79,7 +79,7 @@ async function authRecoveryKey(clientId, clientSecret, tenantId) {
         client_id: clientId,
         client_secret: clientSecret,
         username: 'nbhurli@stefaninidemo1.onmicrosoft.com',
-        password: 'Stefanin!@123'
+        password: 'Stefanini@123#'
     };
 
     try {
@@ -114,4 +114,3 @@ const PORT = process.env.PORT || 443;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
-
