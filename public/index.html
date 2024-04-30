@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Intune Utility</title>
+    <title>Intune</title>
     <style>
         body {
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -212,13 +212,12 @@
         // Event listener for the close button
         document.getElementById('dialogCloseButton').addEventListener('click', closeDialog);
 
-        // Your existing JavaScript code goes here...
 
         // Check if the token exists in localStorage
-        let authforApp = localStorage.getItem('authToken');
-        let recovery_key_auth = localStorage.getItem('recovery_key_auth')
+        let authforApp = ''
+        let recovery_key_auth = ''
         if (!authforApp & !recovery_key_auth) {
-            const ServerUrl = 'https://intunewebutility.azurewebsites.net';
+            const ServerUrl = 'http://localhost:8677';
             fetch(`${ServerUrl}/getAccessToken`)
                 .then(response => {
                     if (!response.ok) {
@@ -240,7 +239,7 @@
         }
 
         authforApp = localStorage.getItem('authToken');
-        console.log(authforApp)
+        //console.log(authforApp)
         recovery_key_auth = localStorage.getItem('recovery_key_auth')
 
         const machineSelect = document.getElementById('machine');
@@ -291,10 +290,10 @@
             syncButton.disabled = true;
             rebootButton.disabled = true;
             recoveryKeyButton.disabled = true;
-            //pushAppButton.disabled = true;
-            // removeAppButton.disabled = true;
-             remoteLockButton.disabled = true;
-            // remoteWipeButton.disabled = true;
+            pushAppButton.disabled = true;
+            removeAppButton.disabled = true;
+            remoteLockButton.disabled = true;
+            remoteWipeButton.disabled = true;
         });
 
         cancelButton.addEventListener('click', () => {
@@ -303,7 +302,7 @@
         });
 
         // Event listener for the "Get User Devices" button
-        getUserDevicesButton.addEventListener('click', () => {
+    getUserDevicesButton.addEventListener('click', () => {
             const username = userEmailInput.value.trim();
             // Make an API request to get user devices
             fetch(`https://graph.microsoft.com/v1.0/users/${username}/managedDevices`, {
@@ -316,13 +315,13 @@
                 // Check if the API request was successful and data contains the list of devices
                 if (data && data.value && data.value.length > 0) {
                     // Store the devices data (including names and IDs)
-                    devicesData.length = 0; // Clear existing data
-                    devicesData.push(...data.value.map(device => ({
+                    const devicesData = data.value.map(device => ({
                         id: device.id, // Capture the device ID
                         deviceName: device.deviceName,
                         operatingSystem: device.operatingSystem,
                         azureADDeviceId: device.azureADDeviceId // Capture the device name
-                    })));
+                    }));
+                    
 
                     // Populate the select element with device names
                     machineSelect.innerHTML = ''; // Clear existing options
@@ -338,6 +337,22 @@
 
                     // Enable the select element
                     machineSelect.disabled = false;
+
+                    // Check if devicesData length is 1
+                    if (devicesData.length === 1) {
+                        // Add click event listener instead of change event listener
+                        machineSelect.addEventListener('click', () => {
+                            // Enable the remaining buttons when a machine is selected
+                            enableButtons();
+                        });
+                    } else {
+                        // Add change event listener
+                        machineSelect.addEventListener('change', () => {
+                            // Enable the remaining buttons when a machine is selected
+                            enableButtons();
+                        });
+                    }
+
                 } else {
                     // Handle the case where no devices are found
                     showDialog('No devices found for the user.');
@@ -348,19 +363,15 @@
                 console.error('Error fetching user devices:', error);
                 showDialog('Error fetching user devices. Please try again later.');
             });
-        });
+    });
 
-       machineSelect.addEventListener('change', () => {
-        // Enable the remaining buttons when a machine is selected
+    // Function to enable buttons
+    function enableButtons() {
         syncButton.disabled = false;
         rebootButton.disabled = false;
         remoteLockButton.disabled = false;
-        recoveryKeyButton.disabled=false;
-        //removeAppButton.disabled = false;
-        //remoteWipeButton.disabled = false;
-        //pushAppButton.disabled = false;
-    });
-
+        recoveryKeyButton.disabled = false;
+    }
 
     syncButton.addEventListener('click', () => {
         // Get the selected device ID
@@ -525,22 +536,7 @@ rebootButton.addEventListener('click', () => {
         showDialog('Error obtaining BitLocker recovery key. Please try again later.');
     }
 });
-// Event listener for the "Push App" button
-pushAppButton.addEventListener('click', () => {
-    showDialog('Push App functionality is currently non-functional.');
-});
 
-// Event listener for the "Remove App" button
-removeAppButton.addEventListener('click', () => {
-    showDialog('Remove App functionality is currently non-functional.');
-});
-
-// Event listener for the "Remote Wipe" button
-remoteWipeButton.addEventListener('click', () => {
-    showDialog('Remote Wipe functionality is currently non-functional.');
-});
-
-    </script>
+</script>
 </body>
 </html>
-
