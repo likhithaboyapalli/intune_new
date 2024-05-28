@@ -296,10 +296,15 @@
             remoteWipeButton.disabled = true;
         });
 
-        cancelButton.addEventListener('click', () => {
-            // Show a confirmation dialog
-            showDialog('Are you sure you want to log out?');
-        });
+           cancelButton.addEventListener('click', () => {
+        // Show a confirmation dialog
+        var result = confirm('Are you sure you want to log out?');
+        if (result) {
+            // User clicked 'OK' (Yes), proceed with the logout action
+            
+            window.location.href = 'https://intunewebutility.azurewebsites.net/.auth/logout';
+        } 
+    });
 
         // Event listener for the "Get User Devices" button
     getUserDevicesButton.addEventListener('click', () => {
